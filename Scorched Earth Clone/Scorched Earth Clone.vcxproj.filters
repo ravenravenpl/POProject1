@@ -21,12 +21,18 @@
     <ClCompile Include="terrain.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="object.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="terrain.h">
       <Filter>Source Files</Filter>
     </ClInclude>
     <ClInclude Include="variables.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="object.h">
       <Filter>Source Files</Filter>
     </ClInclude>
   </ItemGroup>

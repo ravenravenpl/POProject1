@@ -72,9 +72,11 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="object.cpp" />
     <ClCompile Include="terrain.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="object.h" />
     <ClInclude Include="terrain.h" />
     <ClInclude Include="variables.h" />
   </ItemGroup>
