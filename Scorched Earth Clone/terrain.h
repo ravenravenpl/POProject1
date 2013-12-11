@@ -10,5 +10,6 @@ public:
 	void smoothElementary(int x1, float y1, int x2, float y2);
 	void smooth();
 	void displace(int beg, int end, float offset, int level);
+	void flatten(int beg, int end);
 	void draw();
 };

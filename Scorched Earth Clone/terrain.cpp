@@ -97,6 +97,16 @@ void Terrain::displace(int beg, int end, float offset, int level) {
 	//jest wci¹¿ kanciaty. Niemniej chuj z tym, bo do samej gry nadaje siê ca³kiem nieŸle
 }
 
+/*Prosta funkcja wyrównuj¹ca teren od beg do end (wyrównanie nastêpuje do mniejszego z nich)
+U¿ywana do stawiania czo³gów, aby sta³y na równym terenie*/
+void Terrain::flatten(int beg, int end) {
+	int f = this->teren[end] > this->teren[beg] ? beg : end;
+	if (beg > end) return; //tutaj wstawiæ obs³ugê b³êdu
+	for (int i = beg; i <= end; i++) {
+		this->teren[i] = teren[f];
+	}
+}
+
 //narysowanie terenu polega na narysowaniu MAX_WIDTH pionowych linii, ka¿da o wysokoœci teren[i]
 void Terrain::draw() {
 	for (int i = 0; i <= MAX_WIDTH; i++) {
