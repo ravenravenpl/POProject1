@@ -1,0 +1,1 @@
+//extern const int MAX_WIDTH = 800;
