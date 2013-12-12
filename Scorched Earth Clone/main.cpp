@@ -83,7 +83,7 @@ int main(int argc, char **argv){
 				//s³odki jezu jak to czysto wygl¹da, byœ musia³ widzieæ jaki burdel tutaj by³ w strukturalnym podejœciu
 				terrain.clearTable();
 				terrain.setEnds();
-				terrain.displace(0, MAX_WIDTH, 0.8, 5);
+				terrain.displace(0, MAX_WIDTH, 0.99, 10);
 				terrain.smooth();
 			}
 		}
