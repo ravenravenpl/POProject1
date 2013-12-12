@@ -4,6 +4,8 @@
 #include <allegro5\allegro.h>
 #include <allegro5/allegro_primitives.h>
 #include <allegro5\allegro_image.h>
+#define MAX_WIDTH 800
+#define MAX_HEIGHT 600
 
 class Object {
 protected:
@@ -22,14 +24,16 @@ public:
 	bool detectHit();
 };
 
-class Tank {
+class Tank : public Object {
 protected:
 	int HP, degree_x, degree_y, power, a, b;
 	ALLEGRO_BITMAP *image;
 
 public:
+	void place(int x, int y);
 	Projectile shoot();
 	void damage();
 	void getPos();
-	void czolg(int x, int y, int a, int b);
+	void updateBarrel(int a, int b);
+	void draw();
 };
