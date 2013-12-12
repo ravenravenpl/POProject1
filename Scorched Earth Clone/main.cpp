@@ -78,6 +78,10 @@ int main(int argc, char **argv){
 	Terrain terrain;
 	Tank tank;
 
+	int r = 0;
+	int mouseX = 0;
+	int mouseY = 0;
+
 
 	while (1)
 	{
@@ -94,19 +98,22 @@ int main(int argc, char **argv){
 			if (ev.keyboard.keycode == ALLEGRO_KEY_Q) break;
 			if (ev.keyboard.keycode == ALLEGRO_KEY_R)
 			{
-				//s³odki jezu jak to czysto wygl¹da, byœ musia³ widzieæ jaki burdel tutaj by³ w strukturalnym podejœciu
-				terrain.clearTable();
-				terrain.setEnds();
-				terrain.displace(0, MAX_WIDTH, 0.7, 10);
-				terrain.smooth();
+				terrain.reset();
+				r = rand() % MAX_WIDTH;
+				tank.place(r, MAX_HEIGHT - terrain.getY(r));
+				terrain.flatten(r, r + 64);
 			}
 		}
-		else if (ev.type == ALLEGRO_EVENT_MOUSE_AXES)
+		else if (ev.type == ALLEGRO_EVENT_MOUSE_AXES) {
+			mouseX = ev.mouse.x;
+			mouseY = ev.mouse.y;
+		}
 		if (redraw && al_is_event_queue_empty(event_queue)) {
 			redraw = false;
 			al_clear_to_color(al_map_rgb(0, 0, 150));
-			tank.czolg(100, 120, ev.mouse.x, ev.mouse.y);
+			tank.updateBarrel(mouseX, mouseY);
 			terrain.draw();
+			tank.draw();
 			al_flip_display();
 		}
 	}
