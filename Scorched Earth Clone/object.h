@@ -26,14 +26,17 @@ public:
 
 class Tank : public Object {
 protected:
-	int HP, degree_x, degree_y, power, a, b;
+	int HP, degree_x, degree_y, power, a, b,kulax,kulay;
 	ALLEGRO_BITMAP *image;
+	ALLEGRO_BITMAP *pocisk;
+	bool stan;
 
 public:
 	void place(int x, int y);
-	Projectile shoot();
+	//Projectile shoot();
 	void damage();
 	void getPos();
-	void updateBarrel(int a, int b);
-	void draw();
+	void updateBarrel(int a, int b, int i);
+	void draw(int i);
+	void shoot();
 };
