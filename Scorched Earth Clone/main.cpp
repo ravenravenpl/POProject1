@@ -114,8 +114,8 @@ int main(int argc, char **argv){
 			redraw = false;
 			al_clear_to_color(al_map_rgb(0, 0, 150));
 			terrain.draw();
-			tank.draw(2);
-			tank.updateBarrel(mouseX, mouseY,2);
+			tank.draw(4);
+			tank.updateBarrel(mouseX, mouseY,4);
 			al_flip_display();
 		}
 	}
