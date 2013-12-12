@@ -108,12 +108,14 @@ int main(int argc, char **argv){
 			mouseX = ev.mouse.x;
 			mouseY = ev.mouse.y;
 		}
+		else if (ev.type == ALLEGRO_EVENT_MOUSE_BUTTON_DOWN){
+		}
 		if (redraw && al_is_event_queue_empty(event_queue)) {
 			redraw = false;
 			al_clear_to_color(al_map_rgb(0, 0, 150));
-			tank.updateBarrel(mouseX, mouseY);
 			terrain.draw();
-			tank.draw();
+			tank.draw(2);
+			tank.updateBarrel(mouseX, mouseY,2);
 			al_flip_display();
 		}
 	}
