@@ -11,5 +11,8 @@ public:
 	void smooth();
 	void displace(int beg, int end, float offset, int level);
 	void flatten(int beg, int end);
+	void reset();
 	void draw();
+
+	float getY(int x);
 };

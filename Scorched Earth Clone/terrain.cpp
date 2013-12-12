@@ -100,7 +100,8 @@ void Terrain::displace(int beg, int end, float offset, int level) {
 /*Prosta funkcja wyrównuj¹ca teren od beg do end (wyrównanie nastêpuje do mniejszego z nich)
 U¿ywana do stawiania czo³gów, aby sta³y na równym terenie*/
 void Terrain::flatten(int beg, int end) {
-	int f = this->teren[end] > this->teren[beg] ? beg : end;
+	//int f = this->teren[end] > this->teren[beg] ? beg : end;
+	int f = beg;
 	if (beg > end) return; //tutaj wstawiæ obs³ugê b³êdu
 	for (int i = beg; i <= end; i++) {
 		this->teren[i] = teren[f];
@@ -112,4 +113,15 @@ void Terrain::draw() {
 	for (int i = 0; i <= MAX_WIDTH; i++) {
 		al_draw_line(i, MAX_HEIGHT, i, MAX_HEIGHT - teren[i], al_map_rgb(0, 200, 0), 1.0);
 	}
+}
+
+float Terrain::getY(int x) {
+	return this->teren[x];
+}
+
+void Terrain::reset() {
+	Terrain::clearTable();
+	Terrain::setEnds();
+	Terrain::displace(0, MAX_WIDTH, 0.7, 10);
+	Terrain::smooth();
 }
