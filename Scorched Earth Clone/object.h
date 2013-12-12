@@ -24,7 +24,7 @@ public:
 
 class Tank {
 protected:
-	int HP, degree_x, degree_y, power, a, b;
+	int HP, degree_x, degree_y, power, a, b,bla;
 	ALLEGRO_BITMAP *image;
 
 public:
