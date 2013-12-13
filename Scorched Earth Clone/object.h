@@ -29,14 +29,16 @@ protected:
 	int HP, degree_x, degree_y, power, a, b,kulax,kulay;
 	ALLEGRO_BITMAP *image;
 	ALLEGRO_BITMAP *pocisk;
+	ALLEGRO_COLOR color;
 	bool stan;
 
 public:
+	void load(int i);
 	void place(int x, int y);
 	//Projectile shoot();
 	void damage();
 	void getPos();
-	void updateBarrel(int a, int b, int i);
-	void draw(int i);
+	void updateBarrel(int a, int b);
+	void draw();
 	void shoot();
 };

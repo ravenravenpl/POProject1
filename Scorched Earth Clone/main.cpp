@@ -23,6 +23,7 @@ int main(int argc, char **argv){
 	ALLEGRO_TIMER *timer = NULL;
 
 	bool redraw = true;
+	bool loaded = false;
 
 	if (!al_init()) {
 		fprintf(stderr, "failed to initialize allegro!\n");
@@ -99,9 +100,11 @@ int main(int argc, char **argv){
 			if (ev.keyboard.keycode == ALLEGRO_KEY_R)
 			{
 				terrain.reset();
-				r = rand() % MAX_WIDTH;
+				r = rand() % MAX_WIDTH - 70;
+				tank.load(4);
 				tank.place(r, MAX_HEIGHT - terrain.getY(r));
 				terrain.flatten(r, r + 64);
+				loaded = true;
 			}
 		}
 		else if (ev.type == ALLEGRO_EVENT_MOUSE_AXES) {
@@ -113,9 +116,11 @@ int main(int argc, char **argv){
 		if (redraw && al_is_event_queue_empty(event_queue)) {
 			redraw = false;
 			al_clear_to_color(al_map_rgb(0, 0, 150));
-			terrain.draw();
-			tank.draw(4);
-			tank.updateBarrel(mouseX, mouseY,4);
+			if (loaded) {
+				terrain.draw();
+				tank.draw();
+				tank.updateBarrel(mouseX, mouseY);
+			}
 			al_flip_display();
 		}
 	}
