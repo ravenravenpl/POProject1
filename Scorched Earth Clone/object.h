@@ -29,7 +29,7 @@ public:
 	void move();
 	bool detectHit(Terrain terrain);
 	void draw();
-	Projectile(float x, float y, float degree, int power);
+	Projectile(float x, float y, float degree, float power);
 };
 
 class Tank : public Object {

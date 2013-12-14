@@ -83,7 +83,9 @@ int main(int argc, char **argv){
 	int r = 0;
 	int mouseX = 0;
 	int mouseY = 0;
+	int power = 0;
 	const float g = 9.8;
+	bool mousePressed = false;
 
 
 	while (1)
@@ -102,6 +104,10 @@ int main(int argc, char **argv){
 					p = NULL;
 				}
 			}
+			if (mousePressed) {
+				power++;
+			}
+			printf("power: %d\n", power);
 		}
 		else if (ev.type == ALLEGRO_EVENT_DISPLAY_CLOSE) {
 			break;
@@ -122,10 +128,14 @@ int main(int argc, char **argv){
 			mouseX = ev.mouse.x;
 			mouseY = ev.mouse.y;
 			//system("cls");
-			printf("sin: %f\n", sin(tank.calculateDegree(mouseX, mouseY)));
 		}
 		else if (ev.type == ALLEGRO_EVENT_MOUSE_BUTTON_DOWN){
-			p = new Projectile(tank.getX() + 32 + tank.getA(), tank.getY() + tank.getB() + 8 , tank.calculateDegree(mouseX, mouseY), 5);
+			mousePressed = true;
+		}
+		else if (ev.type == ALLEGRO_EVENT_MOUSE_BUTTON_UP) {
+			p = new Projectile(tank.getX() + 32 + tank.getA(), tank.getY() + tank.getB() + 8, tank.calculateDegree(mouseX, mouseY), power*0.1);
+			power = 0;
+			mousePressed = false;
 		}
 		if (redraw && al_is_event_queue_empty(event_queue)) {
 			redraw = false;

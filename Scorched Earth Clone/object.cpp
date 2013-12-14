@@ -16,7 +16,7 @@ float Object::getY() {
 	return this->y;
 }
 
-Projectile::Projectile(float x, float y, float degree, int power) {
+Projectile::Projectile(float x, float y, float degree, float power) {
 	this->x = x;
 	this->y = y;
 	this->y0 = y;
