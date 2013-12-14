@@ -1,4 +1,5 @@
 #include "object.h"
+
 #include <time.h>
 #include <stdlib.h>
 #include <math.h>
@@ -36,6 +37,13 @@ void Projectile::updateGravity() {
 void Projectile::updateVelocity() {
 	this->x = this->x + this->horVelocity;
 	//this->y = this->y + this->vertVelocity;
+}
+
+bool Projectile::detectHit(Terrain terrain) {
+	if (this->y + 4 > MAX_HEIGHT - terrain.getY(this->x)) {
+		return true;
+	}
+	else return false;
 }
 
 void Projectile::draw() {

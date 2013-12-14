@@ -4,6 +4,7 @@
 #include <allegro5\allegro.h>
 #include <allegro5/allegro_primitives.h>
 #include <allegro5\allegro_image.h>
+#include "terrain.h"
 #define MAX_WIDTH 800
 #define MAX_HEIGHT 600
 
@@ -26,7 +27,7 @@ public:
 	void updateVelocity();
 	void updateGravity();
 	void move();
-	bool detectHit();
+	bool detectHit(Terrain terrain);
 	void draw();
 	Projectile(float x, float y, float degree, int power);
 };

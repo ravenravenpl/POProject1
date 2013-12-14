@@ -6,7 +6,7 @@
 #include <stdlib.h>
 #include <iostream>
 
-#include "terrain.h"
+//#include "terrain.h"
 //#include "variables.h"
 #include "object.h"
 
@@ -97,6 +97,10 @@ int main(int argc, char **argv){
 				p->updateTime(); 
 				p->updateGravity();
 				p->updateVelocity();
+				if (p->detectHit(terrain)) {
+					delete p;
+					p = NULL;
+				}
 			}
 		}
 		else if (ev.type == ALLEGRO_EVENT_DISPLAY_CLOSE) {
