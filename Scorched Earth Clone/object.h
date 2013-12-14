@@ -18,8 +18,9 @@ public:
 class Projectile : public Object {
 protected:
 	float vertVelocity, horVelocity;
-	float vX, vY;
+	float x0, y0;
 	int t;
+	int power;
 public:
 	void updateTime();
 	void updateVelocity();
@@ -27,12 +28,13 @@ public:
 	void move();
 	bool detectHit();
 	void draw();
-	Projectile(float x, float y);
+	Projectile(float x, float y, float degree, int power);
 };
 
 class Tank : public Object {
 protected:
-	int HP, degree_x, degree_y, power, a, b,kulax,kulay;
+	int HP, a, b, kulax,kulay;
+	//float degree;
 	ALLEGRO_BITMAP *image;
 	ALLEGRO_BITMAP *pocisk;
 	ALLEGRO_COLOR color;
@@ -41,10 +43,11 @@ protected:
 public:
 	void load(int i);
 	void place(int x, int y);
+	float calculateDegree(int mouseX, int mouseY);
 	//Projectile shoot();
 	void damage();
 	void getPos();
 	void updateBarrel(int a, int b);
 	void draw();
-	void shoot();
+	//void shoot();
 };

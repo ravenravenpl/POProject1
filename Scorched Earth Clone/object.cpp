@@ -1,6 +1,7 @@
 #include "object.h"
 #include <time.h>
 #include <stdlib.h>
+#include <math.h>
 #include <allegro5/allegro.h>
 #include <allegro5/allegro_primitives.h>
 #include <allegro5\allegro_image.h>
@@ -14,13 +15,14 @@ float Object::getY() {
 	return this->y;
 }
 
-Projectile::Projectile(float x, float y) {
+Projectile::Projectile(float x, float y, float degree, int power) {
 	this->x = x;
 	this->y = y;
-	this->vY = y;
+	this->y0 = y;
 	this->t = 1;
-	this->horVelocity = 3;
-	this->vertVelocity = 5;
+	this->power = power;
+	this->horVelocity = sin(degree) < 0 ? -cos(degree)*power : cos(degree)*power;
+	this->vertVelocity = abs(sin(degree))*power;
 }
 
 void Projectile::updateTime() {
@@ -28,7 +30,7 @@ void Projectile::updateTime() {
 }
 
 void Projectile::updateGravity() {
-	this->y = this->vY - (vertVelocity*t - (0.5*G*t*t)*0.01);
+	this->y = this->y0 - (vertVelocity*t - (0.5*G*t*t)*0.01);
 }
 
 void Projectile::updateVelocity() {
@@ -81,9 +83,9 @@ void Tank::draw() {
 
 void Tank::place(int x, int y) {
 	this->x = x;
-	this->y = y-27;
+	this->y = y-24;
 }
 
-void Tank::shoot(){
-
+float Tank::calculateDegree(int mouseX, int mouseY){
+	return atan((this->y-float(mouseY))/ ((float(mouseX) - this->x - 32)));
 }
