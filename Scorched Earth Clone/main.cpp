@@ -105,7 +105,7 @@ int main(int argc, char **argv){
 				}
 			}
 			if (mousePressed) {
-				power++;
+				if (power<100) power++;
 			}
 			printf("power: %d\n", power);
 
@@ -134,12 +134,7 @@ int main(int argc, char **argv){
 			mousePressed = true;
 		}
 		else if (ev.type == ALLEGRO_EVENT_MOUSE_BUTTON_UP) {
-			if (power < 100){
-				p = new Projectile(tank.getX() + 32 + tank.getA(), tank.getY() + tank.getB() + 8, tank.calculateDegree(mouseX, mouseY), power*0.1);
-			}
-			else{
-				p = new Projectile(tank.getX() + 32 + tank.getA(), tank.getY() + tank.getB() + 8, tank.calculateDegree(mouseX, mouseY), 10);
-			}
+			p = new Projectile(tank.getX() + 32 + tank.getA(), tank.getY() + tank.getB() + 8, tank.calculateDegree(mouseX, mouseY), power*0.1);
 			power = 0;
 			mousePressed = false;
 		}
