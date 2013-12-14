@@ -117,9 +117,11 @@ int main(int argc, char **argv){
 		else if (ev.type == ALLEGRO_EVENT_MOUSE_AXES) {
 			mouseX = ev.mouse.x;
 			mouseY = ev.mouse.y;
+			//system("cls");
+			printf("sin: %f\n", sin(tank.calculateDegree(mouseX, mouseY)));
 		}
 		else if (ev.type == ALLEGRO_EVENT_MOUSE_BUTTON_DOWN){
-			p = new Projectile(tank.getX(), tank.getY());
+			p = new Projectile(tank.getX()+32, tank.getY(), tank.calculateDegree(mouseX, mouseY), 5);
 		}
 		if (redraw && al_is_event_queue_empty(event_queue)) {
 			redraw = false;
