@@ -115,3 +115,11 @@ int Tank::getA() {
 int Tank::getB() {
 	return this->b;
 }
+
+void Tank::draw_power(int i){
+	if (i < 100){
+		al_draw_line(200, 100, 200 + i * 4, 100, al_map_rgb(255, 255, 255), 10);
+	}
+else
+	al_draw_line(200, 100, 600, 100, al_map_rgb(255, 255, 255), 10);
+}

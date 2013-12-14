@@ -1,9 +1,9 @@
 #pragma once
 
 #include <iostream>
-#include <allegro5\allegro.h>
+#include <allegro5/allegro.h>
 #include <allegro5/allegro_primitives.h>
-#include <allegro5\allegro_image.h>
+#include <allegro5/allegro_image.h>
 #include "terrain.h"
 #define MAX_WIDTH 800
 #define MAX_HEIGHT 600
@@ -52,5 +52,6 @@ public:
 	void getPos();
 	void updateBarrel(int a, int b);
 	void draw();
+	void draw_power(int i);
 	//void shoot();
 };
