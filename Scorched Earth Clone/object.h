@@ -33,7 +33,7 @@ public:
 
 class Tank : public Object {
 protected:
-	int HP, a, b, kulax,kulay;
+	int HP, a, b, kulax, kulay;
 	//float degree;
 	ALLEGRO_BITMAP *image;
 	ALLEGRO_BITMAP *pocisk;
@@ -41,6 +41,8 @@ protected:
 	bool stan;
 
 public:
+	int getA();
+	int getB();
 	void load(int i);
 	void place(int x, int y);
 	float calculateDegree(int mouseX, int mouseY);

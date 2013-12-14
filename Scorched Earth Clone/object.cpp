@@ -21,7 +21,7 @@ Projectile::Projectile(float x, float y, float degree, int power) {
 	this->y0 = y;
 	this->t = 1;
 	this->power = power;
-	this->horVelocity = sin(degree) < 0 ? -cos(degree)*power : cos(degree)*power;
+	this->horVelocity = sin(degree) <= 0 ? -cos(degree)*power : cos(degree)*power;
 	this->vertVelocity = abs(sin(degree))*power;
 }
 
@@ -45,10 +45,10 @@ void Projectile::draw() {
 void Tank::updateBarrel(int pos_x, int pos_y){
 	// wektorowa magia obliczajaca nam koniec lufy czolgu, która podaza za myszka
 	if (pos_y <= (y + 8)){
-		a = 40 * (pos_x - (x + 34)) / sqrt((pos_x - (x + 34))*(pos_x - (x + 34)) + (pos_y - (y + 8))*(pos_y - (y + 8)));
-		b = 40 * (pos_y - (y + 8)) / sqrt((pos_x - (x + 34))*(pos_x - (x + 34)) + (pos_y - (y + 8))*(pos_y - (y + 8)));
+		this->a = 40 * (pos_x - (x + 34)) / sqrt((pos_x - (x + 34))*(pos_x - (x + 34)) + (pos_y - (y + 8))*(pos_y - (y + 8)));
+		this->b = 40 * (pos_y - (y + 8)) / sqrt((pos_x - (x + 34))*(pos_x - (x + 34)) + (pos_y - (y + 8))*(pos_y - (y + 8)));
 	} 
-	al_draw_line(this->x + 34, this->y + 8, this->x + 34 + a, this->y + 8 + b, this->color, 4);
+	al_draw_line(this->x + 34, this->y + 8, this->x + 34 + this->a, this->y + 8 + this->b, this->color, 4);
 }
 
 void Tank::load(int i) {
@@ -83,9 +83,27 @@ void Tank::draw() {
 
 void Tank::place(int x, int y) {
 	this->x = x;
-	this->y = y-24;
+	this->y = y-20;
 }
 
 float Tank::calculateDegree(int mouseX, int mouseY){
-	return atan((this->y-float(mouseY))/ ((float(mouseX) - this->x - 32)));
+	if (mouseY < this->y + 8) {
+		return atan((this->y + 8 - float(mouseY)) / ((float(mouseX) - this->x - 32)));
+	}
+	else {
+		if (mouseX > this->x - 32) {
+			return 0.0001;
+		}
+		else {
+			return -0.00001;
+		}
+	}
+}
+
+int Tank::getA() {
+	return this->a;
+}
+
+int Tank::getB() {
+	return this->b;
 }
