@@ -29,7 +29,6 @@ public:
 	void move();
 	bool detectHit(Terrain terrain);
 	void draw();
-	void lol();
 	Projectile(float x, float y, float degree, float power);
 };
 
