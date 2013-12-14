@@ -15,13 +15,19 @@ public:
 	float getY();
 };
 
-class Projectile {
+class Projectile : public Object {
 protected:
 	float vertVelocity, horVelocity;
+	float vX, vY;
+	int t;
 public:
+	void updateTime();
 	void updateVelocity();
+	void updateGravity();
 	void move();
 	bool detectHit();
+	void draw();
+	Projectile(float x, float y);
 };
 
 class Tank : public Object {

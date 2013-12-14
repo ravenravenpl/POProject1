@@ -78,10 +78,12 @@ int main(int argc, char **argv){
 
 	Terrain terrain;
 	Tank tank;
+	Projectile *p = NULL;
 
 	int r = 0;
 	int mouseX = 0;
 	int mouseY = 0;
+	const float g = 9.8;
 
 
 	while (1)
@@ -91,6 +93,11 @@ int main(int argc, char **argv){
 
 		if (ev.type == ALLEGRO_EVENT_TIMER) {
 			redraw = true;
+			if (p != NULL) {
+				p->updateTime(); 
+				p->updateGravity();
+				p->updateVelocity();
+			}
 		}
 		else if (ev.type == ALLEGRO_EVENT_DISPLAY_CLOSE) {
 			break;
@@ -112,6 +119,7 @@ int main(int argc, char **argv){
 			mouseY = ev.mouse.y;
 		}
 		else if (ev.type == ALLEGRO_EVENT_MOUSE_BUTTON_DOWN){
+			p = new Projectile(tank.getX(), tank.getY());
 		}
 		if (redraw && al_is_event_queue_empty(event_queue)) {
 			redraw = false;
@@ -121,6 +129,7 @@ int main(int argc, char **argv){
 				tank.draw();
 				tank.updateBarrel(mouseX, mouseY);
 			}
+			if (p!=NULL) p->draw();
 			al_flip_display();
 		}
 	}

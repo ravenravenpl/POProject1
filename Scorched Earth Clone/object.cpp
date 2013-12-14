@@ -4,6 +4,7 @@
 #include <allegro5/allegro.h>
 #include <allegro5/allegro_primitives.h>
 #include <allegro5\allegro_image.h>
+#define G 9.81
 
 float Object::getX() {
 	return this->x;
@@ -11,6 +12,32 @@ float Object::getX() {
 
 float Object::getY() {
 	return this->y;
+}
+
+Projectile::Projectile(float x, float y) {
+	this->x = x;
+	this->y = y;
+	this->vY = y;
+	this->t = 1;
+	this->horVelocity = 3;
+	this->vertVelocity = 5;
+}
+
+void Projectile::updateTime() {
+	this->t++;
+}
+
+void Projectile::updateGravity() {
+	this->y = this->vY - (vertVelocity*t - (0.5*G*t*t)*0.01);
+}
+
+void Projectile::updateVelocity() {
+	this->x = this->x + this->horVelocity;
+	//this->y = this->y + this->vertVelocity;
+}
+
+void Projectile::draw() {
+	al_draw_filled_rectangle((this->x)+2, (this->y)+2, (this->x)-2, (this->y)-2, al_map_rgb(150, 0, 0));
 }
 
 void Tank::updateBarrel(int pos_x, int pos_y){
