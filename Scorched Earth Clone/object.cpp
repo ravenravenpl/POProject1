@@ -53,23 +53,23 @@ void Tank::load(int i) {
 	switch (i)
 	{
 	case 1:
-		image = al_load_bitmap("1czerwony.bmp");
+		image = al_load_bitmap("1czerwony.png");
 		this->color = al_map_rgb(254, 39, 37);
 		break;
 	case 2:
-		image = al_load_bitmap("1zielony.bmp");
+		image = al_load_bitmap("1zielony.png");
 		this->color = al_map_rgb(37, 254, 39);
 		break;
 	case 3:
-		image = al_load_bitmap("1zolty.bmp");
+		image = al_load_bitmap("1zolty.png");
 		this->color = al_map_rgb(254, 211, 37);
 		break;
 	case 4:
-		image = al_load_bitmap("1niebieski.bmp");
+		image = al_load_bitmap("1niebieski.png");
 		this->color = al_map_rgb(38, 209, 255);
 		break;
 	default:
-		image = al_load_bitmap("1niebieski.bmp");
+		image = al_load_bitmap("1niebieski.png");
 		this->color = al_map_rgb(38, 209, 255);
 		break;
 	}
