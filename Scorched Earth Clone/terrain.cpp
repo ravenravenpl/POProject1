@@ -122,6 +122,6 @@ float Terrain::getY(int x) {
 void Terrain::reset() {
 	Terrain::clearTable();
 	Terrain::setEnds();
-	Terrain::displace(0, MAX_WIDTH, 0.7, 10);
+	Terrain::displace(0, MAX_WIDTH, 0.8, 10);
 	Terrain::smooth();
 }
