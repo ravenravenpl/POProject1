@@ -56,6 +56,10 @@ void Tank::updateBarrel(int pos_x, int pos_y){
 		this->a = 40 * (pos_x - (x + 34)) / sqrt((pos_x - (x + 34))*(pos_x - (x + 34)) + (pos_y - (y + 8))*(pos_y - (y + 8)));
 		this->b = 40 * (pos_y - (y + 8)) / sqrt((pos_x - (x + 34))*(pos_x - (x + 34)) + (pos_y - (y + 8))*(pos_y - (y + 8)));
 	} 
+	
+}
+
+void Tank::drawBarrel() {
 	al_draw_line(this->x + 34, this->y + 8, this->x + 34 + this->a, this->y + 8 + this->b, this->color, 4);
 }
 
@@ -89,9 +93,28 @@ void Tank::draw() {
 	al_draw_bitmap(image, this->x, this->y, 0);
 }
 
-void Tank::place(int x, int y) {
-	this->x = x;
-	this->y = y-20;
+Player::Player() {
+	this->a = 39;
+	this->b = 0;
+}
+
+void Player::place(Terrain* terrain) {
+	int r = rand() % (MAX_WIDTH/2-50) + 50;
+	this->x = r;
+	this->y = MAX_HEIGHT - terrain->getY(r) - 24;
+	terrain->flatten(r, r + 64);
+}
+
+Enemy::Enemy() {
+	this->a = -39;
+	this->b = 0;
+}
+
+void Enemy::place(Terrain* terrain) {
+	int r = rand() % (MAX_WIDTH / 2 - 50) + 350;
+	this->x = r;
+	this->y = MAX_HEIGHT - terrain->getY(r) - 24;
+	terrain->flatten(r, r + 64);
 }
 
 float Tank::calculateDegree(int mouseX, int mouseY){
@@ -116,7 +139,7 @@ int Tank::getB() {
 	return this->b;
 }
 
-void Tank::draw_power(int i){
+void Tank::drawPower(int i){
 	if (i < 100){
 		al_draw_line(200, 100, 200 + i * 4, 100, al_map_rgb(255, 255, 255), 10);
 	}

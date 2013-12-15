@@ -45,13 +45,27 @@ public:
 	int getA();
 	int getB();
 	void load(int i);
-	void place(int x, int y);
+	//void place(int x, int y);
 	float calculateDegree(int mouseX, int mouseY);
 	//Projectile shoot();
 	void damage();
 	void getPos();
 	void updateBarrel(int a, int b);
+	void drawBarrel();
 	void draw();
-	void draw_power(int i);
+	void drawPower(int i);
 	//void shoot();
+};
+
+class Player : public Tank {
+public:
+	Player();
+	void place(Terrain* terrain);
+};
+
+class Enemy : public Tank {
+public:
+	Enemy();
+	void place(Terrain* terrain);
+	void aim();
 };
