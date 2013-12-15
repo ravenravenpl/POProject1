@@ -71,10 +71,19 @@ int main(int argc, char **argv){
 		fprintf(stderr, "failed to initialize primitives!\n");
 		return -1;
 	}
-	al_install_mouse();
-	al_init_image_addon();
+
 	al_init_font_addon();
 	al_init_ttf_addon();
+
+	ALLEGRO_FONT *font = al_load_ttf_font("lucon.ttf", 16, 0);
+
+	if (!font){
+		fprintf(stderr, "Could not load 'lucon.ttf'.\n");
+		return -1;
+	}
+
+	al_install_mouse();
+	al_init_image_addon();
 	al_register_event_source(event_queue, al_get_display_event_source(display));
 	al_register_event_source(event_queue, al_get_timer_event_source(timer));
 	al_register_event_source(event_queue, al_get_keyboard_event_source());
@@ -103,8 +112,9 @@ int main(int argc, char **argv){
 			redraw = true;
 			if (p != NULL) {
 				p->updateTime(); 
-				p->updateGravity();
-				p->updateVelocity();
+				p->updateY();
+				p->updateX();
+				p->updateVelocity(wind);
 				if (p->detectHit(terrain) || playerTurn && enemy.isHit(*p) || !playerTurn && player.isHit(*p)) {
 					if (enemy.isHit(*p) || player.isHit(*p)) {
 						printf("Trafiony.");
@@ -151,6 +161,7 @@ int main(int argc, char **argv){
 			mousePressed = true;
 		}
 		else if (ev.type == ALLEGRO_EVENT_MOUSE_BUTTON_UP) {
+			wind = rand() % 20 - 10;
 			shotFired = true;
 			if (playerTurn) {
 				p = player.shoot(mouseX, mouseY, power);
@@ -184,6 +195,8 @@ int main(int argc, char **argv){
 				}
 			}
 			if (p!=NULL) p->draw();
+			al_draw_textf(font, al_map_rgb(255, 255, 255), 50, 50, ALLEGRO_ALIGN_LEFT, "wind: %d", wind);
+			al_draw_textf(font, al_map_rgb(255, 255, 255), 50, 70, ALLEGRO_ALIGN_LEFT, "power: %d", power);
 			al_flip_display();
 		}
 	}

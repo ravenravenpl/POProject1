@@ -38,13 +38,17 @@ void Projectile::updateTime() {
 	this->t++;
 }
 
-void Projectile::updateGravity() {
+void Projectile::updateY() {
 	this->y = this->y0 - (vertVelocity*t - (0.5*G*t*t)*0.01);
 }
 
-void Projectile::updateVelocity() {
+void Projectile::updateX() {
 	this->x = this->x + this->horVelocity;
 	//this->y = this->y + this->vertVelocity;
+}
+
+void Projectile::updateVelocity(int wind) {
+	this->horVelocity = this->horVelocity + 0.001*wind;
 }
 
 bool Projectile::detectHit(Terrain terrain) {

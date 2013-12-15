@@ -26,8 +26,9 @@ protected:
 	int power;
 public:
 	void updateTime();
-	void updateVelocity();
-	void updateGravity();
+	void updateVelocity(int wind);
+	void updateX();
+	void updateY();
 	void move();
 	bool detectHit(Terrain terrain);
 	void draw();
