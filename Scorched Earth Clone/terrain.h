@@ -15,4 +15,5 @@ public:
 	void draw();
 
 	float getY(int x);
+	void setY(int x, float y);
 };

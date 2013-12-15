@@ -12,8 +12,16 @@ float Object::getX() {
 	return this->x;
 }
 
+void Object::setX(float x) {
+	this->x = x;
+}
+
 float Object::getY() {
 	return this->y;
+}
+
+void Object::setY(float y) {
+	this->y = y;
 }
 
 Projectile::Projectile(float x, float y, float degree, float power) {
@@ -135,8 +143,16 @@ int Tank::getA() {
 	return this->a;
 }
 
+void Tank::setA(int a) {
+	this->a = a;
+}
+
 int Tank::getB() {
 	return this->b;
+}
+
+void Tank::setB(int a) {
+	this->b = b;
 }
 
 Projectile* Tank::shoot(int mouseX, int mouseY, int power) {

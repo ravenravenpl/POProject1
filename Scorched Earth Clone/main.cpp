@@ -2,7 +2,10 @@
 #include <allegro5/allegro.h>
 #include <allegro5/allegro_primitives.h>
 #include <allegro5/allegro_image.h>
+#include <allegro5/allegro_font.h>
+#include <allegro5/allegro_ttf.h>
 #include <time.h>
+#include <fstream>
 #include <stdlib.h>
 #include <iostream>
 
@@ -15,6 +18,14 @@
 
 using namespace std;
 const float FPS = 60;
+
+void saveGame();
+void loadGame();
+
+Terrain terrain;
+Player player;
+Enemy enemy;
+Projectile *p = NULL;
 
 int main(int argc, char **argv){
 
@@ -62,29 +73,21 @@ int main(int argc, char **argv){
 	}
 	al_install_mouse();
 	al_init_image_addon();
-
+	al_init_font_addon();
+	al_init_ttf_addon();
 	al_register_event_source(event_queue, al_get_display_event_source(display));
-
 	al_register_event_source(event_queue, al_get_timer_event_source(timer));
-
 	al_register_event_source(event_queue, al_get_keyboard_event_source());
-
 	al_register_event_source(event_queue, al_get_mouse_event_source());
-
 	al_start_timer(timer);
 
 	srand(time(NULL));
-
-
-	Terrain terrain;
-	Player player;
-	Enemy enemy;
-	Projectile *p = NULL;
 
 	//int r = 0;
 	int mouseX = 0;
 	int mouseY = 0;
 	int power = 0;
+	int wind = 0;
 	const float g = 9.8;
 	bool mousePressed = false;
 	bool playerTurn = true;
@@ -102,8 +105,8 @@ int main(int argc, char **argv){
 				p->updateTime(); 
 				p->updateGravity();
 				p->updateVelocity();
-				if (p->detectHit(terrain) || playerTurn && enemy.isHit(*p)) {
-					if (enemy.isHit(*p)) {
+				if (p->detectHit(terrain) || playerTurn && enemy.isHit(*p) || !playerTurn && player.isHit(*p)) {
+					if (enemy.isHit(*p) || player.isHit(*p)) {
 						printf("Trafiony.");
 					}
 					delete p;
@@ -131,6 +134,12 @@ int main(int argc, char **argv){
 				enemy.load(1);
 				enemy.place(&terrain);
 				loaded = true;
+			}
+			if (ev.keyboard.keycode == ALLEGRO_KEY_L) {
+				loadGame();
+			}
+			if (ev.keyboard.keycode == ALLEGRO_KEY_S) {
+				saveGame();
 			}
 		}
 		else if (ev.type == ALLEGRO_EVENT_MOUSE_AXES) {
@@ -185,4 +194,38 @@ int main(int argc, char **argv){
 	al_destroy_event_queue(event_queue);
 
 	return 0;
+}
+
+//nie patrzeæ, tutaj nic nie ma!!
+void saveGame() {
+	fstream plik;
+	plik.open("gra.txt", ios::out);
+	for (int i = 0; i <= MAX_WIDTH; i++) {
+		plik << terrain.getY(i) << " ";
+	}
+	plik << endl;
+	plik << player.getX() << " " << player.getY() << " " << player.getA() << " "<< player.getB() << " " << endl;
+	plik << enemy.getX() << " " << enemy.getY() << " " << enemy.getA() << " " << enemy.getB() << " " << endl;
+	plik.close();
+}
+
+void loadGame() {
+	fstream plik("gra.txt");
+	float x, y, a, b;
+	for (int i = 0; i <= MAX_WIDTH; i++) {
+		plik >> y;
+		terrain.setY(i, y);
+	}
+	plik >> x >> y >> a >> b;
+	player.setX(x);
+	player.setY(y);
+	player.setA(a);
+	player.setB(b);
+	plik >> x >> y >> a >> b;
+	enemy.setX(x);
+	enemy.setY(y);
+	enemy.setA(a);
+	enemy.setB(b);
+
+	plik.close();
 }

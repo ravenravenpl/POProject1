@@ -14,6 +14,8 @@ protected:
 public:
 	float getX();
 	float getY();
+	void setX(float x);
+	void setY(float y);
 };
 
 class Projectile : public Object {
@@ -44,6 +46,8 @@ protected:
 public:
 	int getA();
 	int getB();
+	void setA(int a);
+	void setB(int b);
 	void load(int i);
 	//void place(int x, int y);
 	float calculateDegree(int mouseX, int mouseY);

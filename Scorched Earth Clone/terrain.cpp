@@ -119,6 +119,10 @@ float Terrain::getY(int x) {
 	return this->teren[x];
 }
 
+void Terrain::setY(int x, float y) {
+	this->teren[x] = y;
+}
+
 void Terrain::reset() {
 	Terrain::clearTable();
 	Terrain::setEnds();
