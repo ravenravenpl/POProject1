@@ -77,15 +77,18 @@ int main(int argc, char **argv){
 
 
 	Terrain terrain;
-	Tank tank;
+	Player player;
+	Enemy enemy;
 	Projectile *p = NULL;
 
-	int r = 0;
+	//int r = 0;
 	int mouseX = 0;
 	int mouseY = 0;
 	int power = 0;
 	const float g = 9.8;
 	bool mousePressed = false;
+	bool playerTurn = true;
+	bool shotFired = false;
 
 
 	while (1)
@@ -102,12 +105,14 @@ int main(int argc, char **argv){
 				if (p->detectHit(terrain)) {
 					delete p;
 					p = NULL;
+					playerTurn = !playerTurn;
+					shotFired = false;
 				}
 			}
 			if (mousePressed) {
 				if (power<100) power++;
 			}
-			printf("power: %d\n", power);
+			printf("a: %d, b: %d\n", player.getA(), player.getB());
 
 		}
 		else if (ev.type == ALLEGRO_EVENT_DISPLAY_CLOSE) {
@@ -118,10 +123,10 @@ int main(int argc, char **argv){
 			if (ev.keyboard.keycode == ALLEGRO_KEY_R)
 			{
 				terrain.reset();
-				r = rand() % MAX_WIDTH - 70;
-				tank.load(4);
-				tank.place(r, MAX_HEIGHT - terrain.getY(r));
-				terrain.flatten(r, r + 64);
+				player.load(4);
+				player.place(&terrain);
+				enemy.load(1);
+				enemy.place(&terrain);
 				loaded = true;
 			}
 		}
@@ -134,7 +139,13 @@ int main(int argc, char **argv){
 			mousePressed = true;
 		}
 		else if (ev.type == ALLEGRO_EVENT_MOUSE_BUTTON_UP) {
-			p = new Projectile(tank.getX() + 32 + tank.getA(), tank.getY() + tank.getB() + 8, tank.calculateDegree(mouseX, mouseY), power*0.1);
+			shotFired = true;
+			if (playerTurn) {
+				p = new Projectile(player.getX() + 32 + player.getA(), player.getY() + player.getB() + 8, player.calculateDegree(mouseX, mouseY), power*0.1);
+			}
+			else {
+				p = new Projectile(enemy.getX() + 32 + enemy.getA(), enemy.getY() + enemy.getB() + 8, enemy.calculateDegree(mouseX, mouseY), power*0.1);
+			}
 			power = 0;
 			mousePressed = false;
 		}
@@ -143,9 +154,20 @@ int main(int argc, char **argv){
 			al_clear_to_color(al_map_rgb(0, 0, 150));
 			if (loaded) {
 				terrain.draw();
-				tank.draw();
-			tank.draw_power(power);	
-			tank.updateBarrel(mouseX, mouseY);
+				player.draw();
+				player.drawBarrel();
+				enemy.draw();
+				enemy.drawBarrel();
+				if (playerTurn && !shotFired) {
+					player.drawPower(power);
+					player.updateBarrel(mouseX, mouseY);
+				}
+				else {
+					if (!shotFired) {
+						enemy.drawPower(power);
+						enemy.updateBarrel(mouseX, mouseY);
+					}
+				}
 			}
 			if (p!=NULL) p->draw();
 			al_flip_display();
