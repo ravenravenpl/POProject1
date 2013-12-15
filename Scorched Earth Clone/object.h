@@ -74,5 +74,5 @@ class Enemy : public Tank {
 public:
 	Enemy();
 	void place(Terrain* terrain);
-	void aim();
+	Projectile* aim();
 };

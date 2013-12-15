@@ -183,6 +183,10 @@ void Tank::drawHitbox() {
 	al_draw_rectangle(this->getX(), this->getY(), this->getX() + 64, this->getY() + 24, this->color, 4.0);
 }
 
-void Enemy::aim() {
+Projectile* Enemy::aim() {
 	int r = rand() % 100;
+	int x = rand() % 100;
+	int y = rand() % 100;
+	this->updateBarrel(this->x - x , this->y - y);
+	return this->shoot(this->x - x, this->y - y, r);
 }

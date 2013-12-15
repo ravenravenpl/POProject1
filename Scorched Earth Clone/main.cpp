@@ -128,6 +128,11 @@ int main(int argc, char **argv){
 			if (mousePressed) {
 				if (power<100) power++;
 			}
+			if (!playerTurn && !shotFired) {
+				wind = rand() % 20 - 10;
+				shotFired = true;
+				p = enemy.aim();
+			}
 			//printf("power: %d\n", power);
 
 		}
@@ -167,7 +172,10 @@ int main(int argc, char **argv){
 				p = player.shoot(mouseX, mouseY, power);
 			}
 			else {
-				p = enemy.shoot(mouseX, mouseY, power);
+				int r = rand() % 100;
+				int x = rand() % 100;
+				int y = rand() % 100;
+				p = enemy.shoot(enemy.getX() - x, enemy.getY() - y, r);
 			}
 			power = 0;
 			mousePressed = false;
