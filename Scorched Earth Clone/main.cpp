@@ -102,7 +102,10 @@ int main(int argc, char **argv){
 				p->updateTime(); 
 				p->updateGravity();
 				p->updateVelocity();
-				if (p->detectHit(terrain)) {
+				if (p->detectHit(terrain) || playerTurn && enemy.isHit(*p)) {
+					if (enemy.isHit(*p)) {
+						printf("Trafiony.");
+					}
 					delete p;
 					p = NULL;
 					playerTurn = !playerTurn;
@@ -112,7 +115,7 @@ int main(int argc, char **argv){
 			if (mousePressed) {
 				if (power<100) power++;
 			}
-			printf("a: %d, b: %d\n", player.getA(), player.getB());
+			//printf("power: %d\n", power);
 
 		}
 		else if (ev.type == ALLEGRO_EVENT_DISPLAY_CLOSE) {
@@ -141,10 +144,10 @@ int main(int argc, char **argv){
 		else if (ev.type == ALLEGRO_EVENT_MOUSE_BUTTON_UP) {
 			shotFired = true;
 			if (playerTurn) {
-				p = new Projectile(player.getX() + 32 + player.getA(), player.getY() + player.getB() + 8, player.calculateDegree(mouseX, mouseY), power*0.1);
+				p = player.shoot(mouseX, mouseY, power);
 			}
 			else {
-				p = new Projectile(enemy.getX() + 32 + enemy.getA(), enemy.getY() + enemy.getB() + 8, enemy.calculateDegree(mouseX, mouseY), power*0.1);
+				p = enemy.shoot(mouseX, mouseY, power);
 			}
 			power = 0;
 			mousePressed = false;
@@ -156,8 +159,10 @@ int main(int argc, char **argv){
 				terrain.draw();
 				player.draw();
 				player.drawBarrel();
+				//player.drawHitbox();
 				enemy.draw();
 				enemy.drawBarrel();
+				//enemy.drawHitbox();
 				if (playerTurn && !shotFired) {
 					player.drawPower(power);
 					player.updateBarrel(mouseX, mouseY);

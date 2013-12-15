@@ -139,10 +139,30 @@ int Tank::getB() {
 	return this->b;
 }
 
+Projectile* Tank::shoot(int mouseX, int mouseY, int power) {
+	return new Projectile(this->getX() + 32 + this->getA(), this->getY() + this->getB() + 8, this->calculateDegree(mouseX, mouseY), power*0.1);
+}
+
 void Tank::drawPower(int i){
 	if (i < 100){
 		al_draw_line(200, 100, 200 + i * 4, 100, al_map_rgb(255, 255, 255), 10);
 	}
 else
 	al_draw_line(200, 100, 600, 100, al_map_rgb(255, 255, 255), 10);
+}
+
+bool Tank::isHit(Projectile p) {
+	if (&p == NULL) return false;
+	if (p.getX() > this->getX() && p.getX() < this->getX() + 64 && p.getY() > this->getY() && p.getY() < this->getY() + 24) {
+		return true;
+	}
+	else return false;
+}
+
+void Tank::drawHitbox() {
+	al_draw_rectangle(this->getX(), this->getY(), this->getX() + 64, this->getY() + 24, this->color, 4.0);
+}
+
+void Enemy::aim() {
+	int r = rand() % 100;
 }

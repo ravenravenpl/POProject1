@@ -47,13 +47,15 @@ public:
 	void load(int i);
 	//void place(int x, int y);
 	float calculateDegree(int mouseX, int mouseY);
-	//Projectile shoot();
+	Projectile* shoot(int mouseX, int mouseY, int power);
 	void damage();
 	void getPos();
 	void updateBarrel(int a, int b);
 	void drawBarrel();
 	void draw();
 	void drawPower(int i);
+	bool isHit(Projectile p);
+	void drawHitbox();
 	//void shoot();
 };
 
