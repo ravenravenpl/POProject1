@@ -40,5 +40,8 @@
     <Font Include="segoeui.ttf">
       <Filter>Resource Files</Filter>
     </Font>
+    <Font Include="lucon.ttf">
+      <Filter>Resource Files</Filter>
+    </Font>
   </ItemGroup>
 </Project>
