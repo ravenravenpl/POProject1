@@ -394,6 +394,8 @@ int main(int argc, char **argv){
 					enemy.load(selected2);
 					enemy.place(&terrain);
 					loaded = true;
+					p = NULL;
+					shotFired = false;
 				}
 				if (ev.keyboard.keycode == ALLEGRO_KEY_L) {
 					loadGame();
