@@ -6,7 +6,6 @@
 #include <allegro5/allegro_ttf.h>
 #include <time.h>
 #include <fstream>
-#include <stdlib.h>
 #include <iostream>
 #include "object.h"
 

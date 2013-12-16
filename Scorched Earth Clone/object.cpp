@@ -107,10 +107,6 @@ int Tank::getI() {
 	return this->i;
 }
 
-void Tank::setI(int i) {
-	this->i = i;
-}
-
 void Tank::updateBarrel(int pos_x, int pos_y){
 	// wektorowa magia obliczajaca nam koniec lufy czolgu, która podaza za myszka
 	if (pos_y <= (y + 8)){

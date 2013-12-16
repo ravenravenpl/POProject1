@@ -38,7 +38,6 @@ class Tank : public Object {
 protected:
 	int a, b, i;
 	ALLEGRO_BITMAP *image;
-	ALLEGRO_BITMAP *pocisk;
 	ALLEGRO_COLOR color;
 
 public:
@@ -47,7 +46,6 @@ public:
 	int getI();
 	void setA(int a);
 	void setB(int b);
-	void setI(int i);
 	void load(int i);
 	float calculateDegree(int mouseX, int mouseY);
 	Projectile* shoot(int mouseX, int mouseY, int power);
