@@ -59,7 +59,7 @@ bool Projectile::detectHit(Terrain terrain) {
 }
 
 void Projectile::draw() {
-	al_draw_filled_rectangle((this->x)+2, (this->y)+2, (this->x)-2, (this->y)-2, al_map_rgb(150, 0, 0));
+	al_draw_filled_rectangle((this->x) + 2, (this->y) + 2, (this->x) - 2, (this->y) - 2, al_map_rgb(150, 0, 0));
 }
 
 void Tank::updateBarrel(int pos_x, int pos_y){
@@ -67,8 +67,8 @@ void Tank::updateBarrel(int pos_x, int pos_y){
 	if (pos_y <= (y + 8)){
 		this->a = 40 * (pos_x - (x + 34)) / sqrt((pos_x - (x + 34))*(pos_x - (x + 34)) + (pos_y - (y + 8))*(pos_y - (y + 8)));
 		this->b = 40 * (pos_y - (y + 8)) / sqrt((pos_x - (x + 34))*(pos_x - (x + 34)) + (pos_y - (y + 8))*(pos_y - (y + 8)));
-	} 
-	
+	}
+
 }
 
 void Tank::drawBarrel() {
@@ -94,6 +94,30 @@ void Tank::load(int i) {
 		image = al_load_bitmap("1niebieski.png");
 		this->color = al_map_rgb(38, 209, 255);
 		break;
+	case 5:
+		image = al_load_bitmap("czerwony_1.png");
+		this->color = al_map_rgb(197, 96, 96);
+		break;
+	case 6:
+		image = al_load_bitmap("zielony_1.png");
+		this->color = al_map_rgb(97, 197, 156);
+		break;
+	case 7:
+		image = al_load_bitmap("niebieski_1.png");
+		this->color = al_map_rgb(88, 153, 227);
+		break;
+	case 8:
+		image = al_load_bitmap("fioletowy_1.png");
+		this->color = al_map_rgb(227, 89, 225);
+		break;
+	case 9:
+		image = al_load_bitmap("zielony_2.png");
+		this->color = al_map_rgb(27, 155, 30);
+		break;
+	case 10:
+		image = al_load_bitmap("komp.png");
+		this->color = al_map_rgb(0, 0, 0);
+		break;
 	default:
 		image = al_load_bitmap("1niebieski.png");
 		this->color = al_map_rgb(38, 209, 255);
@@ -111,7 +135,7 @@ Player::Player() {
 }
 
 void Player::place(Terrain* terrain) {
-	int r = rand() % (MAX_WIDTH/2-50) + 50;
+	int r = rand() % (MAX_WIDTH / 2 - 50) + 50;
 	this->x = r;
 	this->y = MAX_HEIGHT - terrain->getY(r) - 24;
 	terrain->flatten(r, r + 64);
@@ -167,8 +191,8 @@ void Tank::drawPower(int i){
 	if (i < 100){
 		al_draw_line(200, 100, 200 + i * 4, 100, al_map_rgb(255, 255, 255), 10);
 	}
-else
-	al_draw_line(200, 100, 600, 100, al_map_rgb(255, 255, 255), 10);
+	else
+		al_draw_line(200, 100, 600, 100, al_map_rgb(255, 255, 255), 10);
 }
 
 bool Tank::isHit(Projectile p) {
@@ -183,10 +207,16 @@ void Tank::drawHitbox() {
 	al_draw_rectangle(this->getX(), this->getY(), this->getX() + 64, this->getY() + 24, this->color, 4.0);
 }
 
+void Tank::drawMenu(int x, int y){
+	al_draw_bitmap(image, x, y, 0);
+}
+
+
 Projectile* Enemy::aim() {
 	int r = rand() % 100;
 	int x = rand() % 100;
 	int y = rand() % 100;
-	this->updateBarrel(this->x - x , this->y - y);
+	this->updateBarrel(this->x - x, this->y - y);
 	return this->shoot(this->x - x, this->y - y, r);
 }
+

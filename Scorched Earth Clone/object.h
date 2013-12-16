@@ -61,6 +61,7 @@ public:
 	void drawPower(int i);
 	bool isHit(Projectile p);
 	void drawHitbox();
+	void drawMenu(int x, int y);
 	//void shoot();
 };
 
