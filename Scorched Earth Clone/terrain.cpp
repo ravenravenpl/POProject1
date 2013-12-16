@@ -58,8 +58,6 @@ void Terrain::smooth() {
 		if (this->teren[x] != 0) { smoothElementary(ost, teren[ost], x, this->teren[x]); ost = x; }
 		x++;
 	}
-	//to jest g³upie, da siê to pomin¹æ jak¹œ m¹dr¹ pêtl¹ do-while, ale mi siê nie chcia³o
-	//myœleæ gdzie inkrementowaæ iksa by nie wyszed³ poza zakres wiêc na szybko jebn¹³em to ;p
 	smoothElementary(ost, this->teren[ost], MAX_WIDTH, this->teren[MAX_WIDTH]);
 }
 
@@ -69,7 +67,7 @@ i powtarza siê dla lewej i prawej po³owy, zmniejszaj¹c mo¿liwoœæ przesuniêcia o 
 opieraj¹c¹ siê na wspó³czynniku. Im mniejszy wspó³czynnik tym mniej mog¹ siê przesuwaæ punkty góra/dó³, skutkuj¹c
 w ³agodniejszym terenie. Im wiêcej poziomów rekurencji tym szczegó³owsze tereny powstaj¹. IMO 0.8 i 5 daj¹ fajne
 rezulataty pod k¹tem gry*/
-//offset mo¿e byæ od 0-1, trzeba to jakoœ zabezpieczyæ
+//offset mo¿e byæ od 0-1
 //level max log2(MAX_WIDTH)
 void Terrain::displace(int beg, int end, float offset, int level) {
 	//obliczenie œrodka
@@ -93,8 +91,6 @@ void Terrain::displace(int beg, int end, float offset, int level) {
 		displace(beg, mid, offset*offset, level - 1);
 		displace(mid, end, offset*offset, level - 1);
 	}
-	//ogólnie coœ i tak spierdoli³em, bo przy wysokim levelu teren powinien byæ bardzo ³adny i okr¹g³y, a u mnie
-	//jest wci¹¿ kanciaty. Niemniej chuj z tym, bo do samej gry nadaje siê ca³kiem nieŸle
 }
 
 /*Prosta funkcja wyrównuj¹ca teren od beg do end (wyrównanie nastêpuje do mniejszego z nich)

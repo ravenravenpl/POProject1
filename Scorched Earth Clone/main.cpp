@@ -8,14 +8,13 @@
 #include <fstream>
 #include <stdlib.h>
 #include <iostream>
-
-//#include "terrain.h"
-//#include "variables.h"
 #include "object.h"
 
+//rozmiary okna z gr¹
 #define MAX_WIDTH 800
 #define MAX_HEIGHT 600
 
+//iloœæ klatek na sekundê
 using namespace std;
 const float FPS = 60;
 
@@ -26,9 +25,11 @@ Terrain terrain;
 Player player;
 Enemy enemy;
 Projectile *p = NULL;
+bool mode = true;
 
 int main(int argc, char **argv){
 
+	//inicjalizowanie zmiennych i potrzebnych funkcji z Allegro
 	ALLEGRO_DISPLAY *display = NULL;
 	ALLEGRO_EVENT_QUEUE *event_queue = NULL;
 	ALLEGRO_TIMER *timer = NULL;
@@ -38,7 +39,6 @@ int main(int argc, char **argv){
 
 	int selected = 1;
 	int selected2 = 10;
-	bool mode = true;
 
 	if (!al_init()) {
 		fprintf(stderr, "failed to initialize allegro!\n");
@@ -98,7 +98,6 @@ int main(int argc, char **argv){
 
 	srand(time(NULL));
 
-	//int r = 0;
 	int mouseX = 0;
 	int mouseY = 0;
 	int power = 0;
@@ -114,28 +113,36 @@ int main(int argc, char **argv){
 	bool poczatek = true;
 	bool program = true;
 
+	//g³ówna pêtla programu
 	while (program){
 		ALLEGRO_EVENT ev;
-		//al_wait_for_event(event_queue, &ev);
+		//czêœæ programu wyœwietlaj¹ca pocz¹tkowe menu
 		while (menu_poczatek){
 			al_wait_for_event(event_queue, &ev);
+			//odœwie¿anie ekranu w ka¿dej klatce animacji
 			if (ev.type == ALLEGRO_EVENT_TIMER){
 				redraw = true;
 			}
+			//wyjœcie z programu przez zmianê wartoœci w pêtlach programu i menu na false
 			else if (ev.type == ALLEGRO_EVENT_KEY_DOWN){
 				if (ev.keyboard.keycode == ALLEGRO_KEY_ESCAPE){
 					menu_poczatek = false;
 					program = false;
 				}
 			}
+			//reakcja na naciœniêcie krzy¿yka w prawym górnym rogu
 			else if (ev.type == ALLEGRO_EVENT_DISPLAY_CLOSE) {
 				menu_poczatek = false;
 				program = false;
 			}
+			//zapisywanie bie¿¹cych wspó³rzêdnych myszki
 			else if (ev.type == ALLEGRO_EVENT_MOUSE_AXES) {
 				mouseX = ev.mouse.x;
 				mouseY = ev.mouse.y;
 			}
+			//w przypadku naciœniêcia przycisku myszy sprawdzana jest pozycja kursora
+			//i zale¿nie od tego, nad którym przyciskiem by³, podejmowana jest odpowiednia
+			//akcja
 			else if (ev.type == ALLEGRO_EVENT_MOUSE_BUTTON_DOWN){
 				if (mouseX > 200 && mouseX<600 && mouseY>200 && mouseY < 300){
 					menu_poczatek = false;
@@ -152,9 +159,9 @@ int main(int argc, char **argv){
 					enemy.place(&terrain);
 					loaded = true;
 					loadGame();
-
 				}
 			}
+			//rysowanie menu
 			if (redraw && al_is_event_queue_empty(event_queue)) {
 				redraw = false;
 				al_clear_to_color(al_map_rgb(0, 0, 150));
@@ -164,12 +171,12 @@ int main(int argc, char **argv){
 				al_draw_text(font24, al_map_rgb(255, 255, 255), 340, 445, 0, "Wczytaj gre");
 				al_draw_text(font24, al_map_rgb(255, 255, 255), 350, 245, 0, "Nowa gra");
 				al_flip_display();
-				//cout << mouseX << endl;
-				//cout << mouseY << endl;
 			}
 		}
+		//ekran wyboru trybu gry
 		while (menu_wybor){
 			al_wait_for_event(event_queue, &ev);
+			//eventy jak wy¿ej
 			if (ev.type == ALLEGRO_EVENT_TIMER){
 				redraw = true;
 			}
@@ -210,10 +217,9 @@ int main(int argc, char **argv){
 				al_draw_text(font24, al_map_rgb(255, 255, 255), 300, 445, 0, "Graj z komputerem");
 				al_draw_text(font24, al_map_rgb(255, 255, 255), 325, 245, 0, "Dwoch graczy");
 				al_flip_display();
-				//cout << mouseX << endl;
-				//cout << mouseY << endl;
 			}
 		}
+		//menu wyboru czo³gu
 		while (menu){
 			al_wait_for_event(event_queue, &ev);
 			if (ev.type == ALLEGRO_EVENT_TIMER){
@@ -332,26 +338,26 @@ int main(int argc, char **argv){
 				player.load(selected);
 				player.drawMenu(350, 150);
 				al_flip_display();
-				//cout << mouseX << endl;
-				//cout << mouseY << endl;
 			}
 
 		}
+		//w³aœciwa pêtla gry
 		while (gra)
 		{
-			//ALLEGRO_EVENT ev;
 			al_wait_for_event(event_queue, &ev);
 
 			if (ev.type == ALLEGRO_EVENT_TIMER) {
 				redraw = true;
+				//jeœli pocisk istnieje, to przy ka¿dej klatce uaktualniana jest jego pozycja
+				//oraz prêdkoœæ pozioma zgodnie z wiej¹cym wiatrem
 				if (p != NULL) {
 					p->updateTime();
 					p->updateY();
 					p->updateX();
 					p->updateVelocity(wind);
+					//w przypadku trafienia gra jest koñczona i wraca do menu
 					if (p->detectHit(terrain) || playerTurn && enemy.isHit(*p) || !playerTurn && player.isHit(*p)) {
 						if (enemy.isHit(*p) || player.isHit(*p)) {
-							//printf("trafiony.");
 							gra = false;
 							menu_poczatek = true;
 							break;
@@ -362,9 +368,11 @@ int main(int argc, char **argv){
 						shotFired = false;
 					}
 				}
+				//zwiêkszanie mocy w miarê trzymania przycisku myszy
 				if (mousePressed) {
 					if (power < 100) power++;
 				}
+				//jeœli gramy z przeciwnikiem, to tutaj nastêpuje wywo³anie metody celowania
 				if (mode == false){
 					if (!playerTurn && !shotFired) {
 						wind = rand() % 20 - 10;
@@ -372,14 +380,13 @@ int main(int argc, char **argv){
 						p = enemy.aim();
 					}
 				}
-				//printf("power: %d\n", power);
-
 			}
 			else if (ev.type == ALLEGRO_EVENT_DISPLAY_CLOSE) {
 				gra = false;
 				program = false;
 			}
 			else if (ev.type == ALLEGRO_EVENT_KEY_DOWN) {
+				//reakcja na przycisk R, który pozwala prze³adowaæ plansze i czo³gi
 				if (ev.keyboard.keycode == ALLEGRO_KEY_R)
 				{
 					terrain.reset();
@@ -403,25 +410,25 @@ int main(int argc, char **argv){
 			else if (ev.type == ALLEGRO_EVENT_MOUSE_AXES) {
 				mouseX = ev.mouse.x;
 				mouseY = ev.mouse.y;
-				//system("cls");
 			}
 			else if (ev.type == ALLEGRO_EVENT_MOUSE_BUTTON_DOWN){
 				mousePressed = true;
 				poczatek = false;
 			}
 			else
+			//po puszczeniu przycisku myszy nastêpuje strza³
 			if (ev.type == ALLEGRO_EVENT_MOUSE_BUTTON_UP && poczatek == false) {
 				wind = rand() % 20 - 10;
 				shotFired = true;
+				//zale¿nie od tego, czy strzela przeciwnik czy gracz obiekt projectile tworzy
+				//czo³g gracza lub przeciwnika
 				if (playerTurn) {
 					p = player.shoot(mouseX, mouseY, power);
 				}
 				else {
 					if (mode == false){
-						int r = rand() % 100;
-						int x = rand() % 100;
-						int y = rand() % 100;
-						p = enemy.shoot(enemy.getX() - x, enemy.getY() - y, r);
+						//strza³em zajmuje siê "sztuczna inteligencja"
+						p = enemy.aim();
 					}
 					else{
 						p = enemy.shoot(mouseX, mouseY, power);
@@ -430,6 +437,7 @@ int main(int argc, char **argv){
 				power = 0;
 				mousePressed = false;
 			}
+			//tutaj nastêpuje rysowanie terenu, czo³gów oraz pocisku
 			if (redraw && al_is_event_queue_empty(event_queue)) {
 				redraw = false;
 				al_clear_to_color(al_map_rgb(0, 0, 150));
@@ -437,15 +445,16 @@ int main(int argc, char **argv){
 					terrain.draw();
 					player.draw();
 					player.drawBarrel();
-					//player.drawHitbox();
 					enemy.draw();
 					enemy.drawBarrel();
-					//enemy.drawHitbox();
+					//jeœli jest ruch gracza i nie jest on podczas strza³u, to lufa jego czo³gu
+					//pod¹¿a za kursorem
 					if (playerTurn && !shotFired) {
 						player.drawPower(power);
 						player.updateBarrel(mouseX, mouseY);
 					}
 					else {
+					//to samo, ale dla przeciwnika
 						if (!shotFired) {
 							enemy.drawPower(power);
 							enemy.updateBarrel(mouseX, mouseY);
@@ -453,14 +462,15 @@ int main(int argc, char **argv){
 					}
 				}
 				if (p != NULL) p->draw();
-				al_draw_textf(font, al_map_rgb(255, 255, 255), 50, 50, ALLEGRO_ALIGN_LEFT, "wind: %d", wind);
-				al_draw_textf(font, al_map_rgb(255, 255, 255), 50, 70, ALLEGRO_ALIGN_LEFT, "power: %d", power);
+				al_draw_textf(font, al_map_rgb(255, 255, 255), 50, 50, ALLEGRO_ALIGN_LEFT, "wiatr: %d", wind);
+				al_draw_textf(font, al_map_rgb(255, 255, 255), 50, 70, ALLEGRO_ALIGN_LEFT, "moc: %d", power);
 				al_flip_display();
 			}
 		}
 		poczatek = true;
 	}
 
+	//deinicjacja funkcji allegro
 	al_shutdown_primitives_addon();
 	al_destroy_timer(timer);
 	al_destroy_display(display);
@@ -469,7 +479,7 @@ int main(int argc, char **argv){
 	return 0;
 }
 
-//nie patrzeæ, tutaj nic nie ma!!
+//funkcje zapisu i odczytu gry
 void saveGame() {
 	fstream plik;
 	plik.open("gra.txt", ios::out);
@@ -478,27 +488,35 @@ void saveGame() {
 	}
 	plik << endl;
 	plik << player.getX() << " " << player.getY() << " " << player.getA() << " " << player.getB() << " " << endl;
+	plik << player.getI() << endl;
 	plik << enemy.getX() << " " << enemy.getY() << " " << enemy.getA() << " " << enemy.getB() << " " << endl;
+	plik << enemy.getI() << endl;
+	plik << (mode ? "1" : "0") << endl;
 	plik.close();
 }
 
 void loadGame() {
 	fstream plik("gra.txt");
-	float x, y, a, b;
+	float x, y, a, b, i;
 	for (int i = 0; i <= MAX_WIDTH; i++) {
 		plik >> y;
 		terrain.setY(i, y);
 	}
 	plik >> x >> y >> a >> b;
+	plik >> i;
 	player.setX(x);
 	player.setY(y);
 	player.setA(a);
 	player.setB(b);
+	player.load(i);
 	plik >> x >> y >> a >> b;
+	plik >> i;
 	enemy.setX(x);
 	enemy.setY(y);
 	enemy.setA(a);
 	enemy.setB(b);
-
+	enemy.load(i);
+	plik >> i;
+	mode = i ? TRUE : FALSE;
 	plik.close();
 }

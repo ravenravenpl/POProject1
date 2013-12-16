@@ -29,7 +29,6 @@ public:
 	void updateVelocity(int wind);
 	void updateX();
 	void updateY();
-	void move();
 	bool detectHit(Terrain terrain);
 	void draw();
 	Projectile(float x, float y, float degree, float power);
@@ -37,24 +36,21 @@ public:
 
 class Tank : public Object {
 protected:
-	int HP, a, b, kulax, kulay;
-	//float degree;
+	int a, b, i;
 	ALLEGRO_BITMAP *image;
 	ALLEGRO_BITMAP *pocisk;
 	ALLEGRO_COLOR color;
-	bool stan;
 
 public:
 	int getA();
 	int getB();
+	int getI();
 	void setA(int a);
 	void setB(int b);
+	void setI(int i);
 	void load(int i);
-	//void place(int x, int y);
 	float calculateDegree(int mouseX, int mouseY);
 	Projectile* shoot(int mouseX, int mouseY, int power);
-	void damage();
-	void getPos();
 	void updateBarrel(int a, int b);
 	void drawBarrel();
 	void draw();
@@ -62,7 +58,6 @@ public:
 	bool isHit(Projectile p);
 	void drawHitbox();
 	void drawMenu(int x, int y);
-	//void shoot();
 };
 
 class Player : public Tank {
